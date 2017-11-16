@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.dongnaoedu.com/schema/soa"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.dongnaoedu.com/schema/soa"
+<xsd:schema xmlns="http://www.qingzhu.com/schema/soa"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.qingzhu.com/schema/soa"
  elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xsd:element name="registry">
 		<xsd:complexType>

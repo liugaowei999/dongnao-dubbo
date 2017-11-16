@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:qingzhu="http://www.qingzhu.com/schema/soa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   http://www.qingzhu.com/schema/soa 
+	   http://www.qingzhu.com/schema/soa.xsd"
+       default-lazy-init="false">
+       
+       
+    <qingzhu:registry  protocol="redis" address="192.168.213.148:6379"></qingzhu:registry>
+    <qingzhu:reference id="TestServiceImpl1" interface="com.dongnao.jack.test.service.TestService" loadbalance="random" protocol="http"></qingzhu:reference>
+ 	<!-- <qingzhu:reference id="testServiceImpl3" interface="com.dongnao.jack.test.service.TestService" loadbalance="random" protocol="http"></qingzhu:reference> -->
+ 	<qingzhu:protocol  name="http" port="27017" host="127.0.0.1"></qingzhu:protocol>
+ 	
+ 	<qingzhu:service interface="com.dongnao.jack.test.service.TestService" ref="TestServiceImpl1" protocol="http"></qingzhu:service>
+ 	<qingzhu:service interface="com.dongnao.jack.test.service.UserService" ref="UserServiceImpl1" protocol="rmi"></qingzhu:service>
+       
+       
+</beans>
