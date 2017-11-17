@@ -38,6 +38,7 @@ public class ProtocolBeanDefinitionParse implements
 		String name = element.getAttribute("name");
 		String host = element.getAttribute("host");
 		String port = element.getAttribute("port");
+		String contextpath = element.getAttribute("contextpath");
 
 		System.out.println("ProtocolBeanDefinitionParse name=" + name + ", host=" + host + ", port=" + port);
 
@@ -55,6 +56,7 @@ public class ProtocolBeanDefinitionParse implements
 		beanDefinition.getPropertyValues().addPropertyValue("name", name);
 		beanDefinition.getPropertyValues().addPropertyValue("host", host);
 		beanDefinition.getPropertyValues().addPropertyValue("port", port);
+		beanDefinition.getPropertyValues().addPropertyValue("contextPath", contextpath);
 
 		// 在Spring容器中进行注册， 将bean实例放入容器中。
 		parserContext.getRegistry().registerBeanDefinition("protocol_" + name + host + port, beanDefinition);
