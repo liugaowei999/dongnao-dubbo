@@ -14,6 +14,9 @@ import org.springframework.context.ApplicationContextAware;
 
 import com.dongnao.jack.invoke.HttpInvoke;
 import com.dongnao.jack.invoke.Invoke;
+import com.dongnao.jack.loadbalance.LoadBalance;
+import com.dongnao.jack.loadbalance.RandomLoadBalance;
+import com.dongnao.jack.loadbalance.RoundRobinLoadBalance;
 import com.dongnao.jack.proxy.InvokeInvocationHandler;
 import com.dongnao.jack.registry.BaseRegistryDelegate;
 
@@ -34,7 +37,23 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 
 	private Invoke invoke;
 
+	private LoadBalance loadBalanceBean;
+
 	private static Map<String, Invoke> invokes = new HashMap<String, Invoke>();
+
+	private static Map<String, LoadBalance> loadbanlanceMap = new HashMap<String, LoadBalance>();
+
+	public static Map<String, LoadBalance> getLoadbanlanceMap() {
+		return loadbanlanceMap;
+	}
+
+	public static void setLoadbanlanceMap(Map<String, LoadBalance> loadbanlanceMap) {
+		Reference.loadbanlanceMap = loadbanlanceMap;
+	}
+
+	public LoadBalance getLoadBalanceBean() {
+		return loadBalanceBean;
+	}
 
 	// 服务提供者 提供服务的列表
 	private List<String> registryInfo = new ArrayList<String>();
@@ -42,6 +61,9 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 	static {
 		invokes.put("http", new HttpInvoke());
 		invokes.put("rmi", null);
+
+		loadbanlanceMap.put("random", new RandomLoadBalance());
+		loadbanlanceMap.put("roundrob", new RoundRobinLoadBalance());
 	}
 
 	public List<String> getRegistryInfo() {
@@ -94,6 +116,9 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 		System.out.println("afterPropertiesSet");
 		registryInfo = BaseRegistryDelegate.getRegistry(id, applicationContext);
 		System.out.println("从注册中心获取服务信息：" + registryInfo);
+
+		// 取客户端该服务调用的负载均衡算法配置策略选择信息,设置负载均衡策略
+		loadBalanceBean = Reference.loadbanlanceMap.get(loadbalance);
 	}
 
 	// implements FactoryBean
