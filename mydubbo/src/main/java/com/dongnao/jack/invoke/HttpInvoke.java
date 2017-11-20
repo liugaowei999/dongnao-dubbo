@@ -26,9 +26,11 @@ public class HttpInvoke implements Invoke {
 		// 构建url http://IP:PORT/PATH
 		String url = "http://" + nodeInfo.getHost() + ":" + nodeInfo.getPort() +
 				nodeInfo.getContextPath();
+		System.out.println("Consumer: url=" + url);
 
 		// 通过HTTP协议调用生产者提供的服务
 		String Result = HttpRequest.sendPost(url, sendParam.toJSONString());
+		System.out.println("Result=" + Result);
 		return Result;
 	}
 

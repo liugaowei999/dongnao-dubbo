@@ -15,7 +15,7 @@ public class Protocol extends BaseConfigBean implements InitializingBean, Applic
 	private String host;
 	private String port;
 
-	private String contextPath;
+	private String contextpath;
 
 	private static ApplicationContext applicationContext;
 
@@ -48,11 +48,11 @@ public class Protocol extends BaseConfigBean implements InitializingBean, Applic
 	}
 
 	public String getContextPath() {
-		return contextPath;
+		return contextpath;
 	}
 
-	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath;
+	public void setContextPath(String contextpath) {
+		this.contextpath = contextpath;
 	}
 
 	public static ApplicationContext getApplicationContext() {
