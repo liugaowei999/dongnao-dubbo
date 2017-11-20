@@ -4,6 +4,12 @@ import java.lang.reflect.Method;
 
 import com.dongnao.jack.configBean.Reference;
 
+/**
+ * 封装了 通过反射方式来调用某个具体实例对象的具体服务方法，所需要的 相关参数
+ * 
+ * @author liugaowei
+ *
+ */
 public class Invocation {
 
 	private Method method;

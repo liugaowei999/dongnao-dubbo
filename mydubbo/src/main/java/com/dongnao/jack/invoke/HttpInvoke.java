@@ -6,6 +6,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.dongnao.jack.loadbalance.NodeInfo;
 import com.dongnao.jack.rpc.http.HttpRequest;
 
+/**
+ * HTTP模式下， 消费端 通过发起Http 发送Request请求到远端服务生产者一方。
+ * 并接收远程服务的Response响应消息，获取远程服务的执行结果。
+ * 
+ * @author liugaowei
+ *
+ */
 public class HttpInvoke implements Invoke {
 
 	public String invoke(Invocation invocation) {

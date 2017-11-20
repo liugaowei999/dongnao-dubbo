@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import com.dongnao.jack.invoke.HttpInvoke;
 import com.dongnao.jack.invoke.Invoke;
+import com.dongnao.jack.invoke.RmiInvoke;
 import com.dongnao.jack.loadbalance.LoadBalance;
 import com.dongnao.jack.loadbalance.RandomLoadBalance;
 import com.dongnao.jack.loadbalance.RoundRobinLoadBalance;
@@ -60,7 +61,7 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 
 	static {
 		invokes.put("http", new HttpInvoke());
-		invokes.put("rmi", null);
+		invokes.put("rmi", new RmiInvoke());
 
 		loadbanlanceMap.put("random", new RandomLoadBalance());
 		loadbanlanceMap.put("roundrob", new RoundRobinLoadBalance());
@@ -122,6 +123,13 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 	}
 
 	// implements FactoryBean
+	/**
+	 * 通过Reference标签注册的服务， 通过FactoryBean -->getObject接口为容器提供 具体的实例对象。
+	 * 实例对象时通过动态代理方式生产的代理对象， 从而实现了与 具体对象的解耦， 通过统一的Handler方法
+	 * 通过不同的rpc通信协议，发起向服务提供者的远程服务调用。
+	 * 
+	 * getObject() 只会被容器调用一次。 生产代理对象放入容器。
+	 */
 	public Object getObject() throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("run:Reference --- getObject!");
@@ -132,9 +140,11 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 			invoke = invokes.get("http");
 		}
 		// 生成代理对象
-		return Proxy.newProxyInstance(this.getClass().getClassLoader(),
+		Object proxyObj = Proxy.newProxyInstance(this.getClass().getClassLoader(),
 				new Class<?>[] { Class.forName(intf) },
 				new InvokeInvocationHandler(invoke, this));
+		System.out.println("proxyObj=" + proxyObj);
+		return proxyObj;
 	}
 
 	// implements FactoryBean

@@ -21,6 +21,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dongnao.jack.configBean.Service;
 
+/**
+ * HTTP协议下， 服务提供者 接收服务消费端提交过来的 request请求，
+ * 根据request请求中的服务调用参数信息（serviceId，方法名称，方法类型，方法具体参数值） 通过反射调用
+ * 对应服务。并将服务执行结果封装到Response对象中，响应给请求方。
+ * 
+ * @author liugaowei
+ *
+ */
 public class DispatcherServlet extends HttpServlet {
 
 	/**

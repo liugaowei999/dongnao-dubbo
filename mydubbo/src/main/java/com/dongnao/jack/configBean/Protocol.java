@@ -5,6 +5,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.dongnao.jack.rmi.RmiUtil;
+
 public class Protocol extends BaseConfigBean implements InitializingBean, ApplicationContextAware {
 
 	/**
@@ -62,7 +64,10 @@ public class Protocol extends BaseConfigBean implements InitializingBean, Applic
 	// implements InitializingBean
 	public void afterPropertiesSet() throws Exception {
 		// TODO Auto-generated method stub
-
+		if (name.equalsIgnoreCase("rmi")) {
+			RmiUtil rmiUtil = new RmiUtil();
+			rmiUtil.startRmiServer(host, port, "SOA_RMI_SERVICE"); // 写死为固定字符串，与客户端调用的内容要一致
+		}
 	}
 
 	// implements ApplicationContextAware
