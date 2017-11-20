@@ -23,9 +23,36 @@ import com.dongnao.jack.configBean.Service;
 
 public class DispatcherServlet extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8988458607525496425L;
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		System.out.println("com.dongnao.jack.remote.server.servlet.DispatcherServlet init()");
+	}
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		System.out.println("com.dongnao.jack.remote.server.servlet.DispatcherServlet service()");
+		System.out.println("Request Method:" + req.getMethod());
+		if (req.getMethod().equals("GET")) {
+			doGet(req, resp);
+		} else if (req.getMethod().equals("POST")) {
+			doPost(req, resp);
+		} else {
+			throw new ServletException("Cannot support this Method :[" + req.getMethod() + "]");
+		}
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("do get .......");
 		try {
 			doHttpRequest(req, resp);
 		} catch (Exception e) {
@@ -37,6 +64,7 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("do post .......");
 		try {
 			doHttpRequest(req, resp);
 		} catch (Exception e) {
