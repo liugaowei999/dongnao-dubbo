@@ -132,7 +132,8 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 	 */
 	public Object getObject() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("run:Reference --- getObject!");
+		String classLoaderName = Thread.currentThread().getContextClassLoader().toString();
+		System.out.println("run:Reference --- getObject!, classLoaderName=[" + classLoaderName + "]");
 		if (protocol != null && (!"".equals(protocol))) {
 			invoke = invokes.get(protocol);
 		} else {
@@ -150,7 +151,8 @@ public class Reference extends BaseConfigBean implements FactoryBean, Initializi
 	// implements FactoryBean
 	public Class getObjectType() {
 		// TODO Auto-generated method stub
-		System.out.println("Reference.java  Class getObjectType()");
+		String classLoaderName = Thread.currentThread().getContextClassLoader().toString();
+		System.out.println("Reference.java  Class getObjectType(), classLoaderName=[" + classLoaderName + "]");
 		if (intf != null && !"".equals(intf)) {
 			try {
 				return Class.forName(intf);

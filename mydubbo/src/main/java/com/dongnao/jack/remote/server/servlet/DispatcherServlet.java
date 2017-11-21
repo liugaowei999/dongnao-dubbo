@@ -116,7 +116,7 @@ public class DispatcherServlet extends HttpServlet {
 		PrintWriter pw = resp.getWriter();
 		if (method != null) {
 			Object result = method.invoke(serviceBean, methodParamValueObjs);
-			pw.write(result.toString());
+			pw.write((String) (result instanceof String ? result : result.toString()));
 		} else {
 			pw.write("The service:" + serviceId + ", has no such method: methodName=" + methodName + ", param:"
 					+ methodParamValues);

@@ -47,13 +47,26 @@ public class SoaRmiImpl extends UnicastRemoteObject implements SoaRmi {
 
 		ApplicationContext applicationContext = Service.getApplicationContext();
 		Object serviceBean = applicationContext.getBean(serviceId);
-		Method method = getMethod(serviceBean, methodName, paramTypes);
+		Method method = null;
+		try {
+			method = getMethod(serviceBean, methodName, paramTypes);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchMethodException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		if (method != null) {
 			Object result;
 			try {
 				result = method.invoke(serviceBean, objects);
-				return result.toString();
+				System.out.println("RMI Server result=" + result);
+				return (String) (result instanceof String ? result : result.toString());
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -71,7 +84,31 @@ public class SoaRmiImpl extends UnicastRemoteObject implements SoaRmi {
 		return null;
 	}
 
-	private Method getMethod(Object bean, String methodName,
+	private Method getMethod(Object serviceBean, String methodName, JSONArray methodParamTypes)
+			throws ClassNotFoundException, NoSuchMethodException, SecurityException {
+
+		// 先根据名称找， 如果按名称只有一个函数， 则默认是此方法
+		// 这种方式效率高， 但并不严谨， 有可能，客户端传错参数，导致执行失败，异常。
+		Method[] methods = serviceBean.getClass().getMethods();
+		List<Method> retMethod = new ArrayList<Method>();
+		for (Method method : methods) {
+			if (methodName.trim().equals(method.getName())) {
+				retMethod.add(method);
+			}
+		}
+		if (retMethod.size() == 1) {
+			return retMethod.get(0);
+		}
+		// 完全匹配查询
+		Class<?>[] paraTypeClass = new Class<?>[methodParamTypes.size()];
+		for (int i = 0; i < methodParamTypes.size(); i++) {
+			String typeName = methodParamTypes.getString(i);
+			paraTypeClass[i] = Class.forName(typeName);
+		}
+		return serviceBean.getClass().getMethod(methodName, paraTypeClass);
+	}
+
+	private Method getMethod1(Object bean, String methodName,
 			JSONArray paramTypes) {
 
 		Method[] methods = bean.getClass().getMethods();
